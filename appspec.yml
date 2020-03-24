@@ -1,5 +1,7 @@
 version: 0.0
 os: linux
+
+#코드 추가 예정
 files:
   - source:  /
     destination: /home/ec2-user/app/step2/zip/

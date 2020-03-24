@@ -7,6 +7,8 @@ branches:
     - master
 
 # Travis CI 서버의 Home
+
+#권한 문제 시 필요코드
 before_install:
   - chmod +x gradlew
 

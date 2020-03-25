@@ -1,6 +1,5 @@
 package com.my.springboot.web;
 
-
 import org.junit.Test;
 import org.springframework.mock.env.MockEnvironment;
 

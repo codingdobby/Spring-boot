@@ -1,5 +1,6 @@
 package com.my.springboot.config.auth;
 
+
 import com.my.springboot.config.auth.dto.OAuthAttributes;
 import com.my.springboot.config.auth.dto.SessionUser;
 import com.my.springboot.domain.user.User;

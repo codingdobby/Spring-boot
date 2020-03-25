@@ -1,5 +1,6 @@
 package com.my.springboot.config.auth.dto;
 
+
 import com.my.springboot.domain.user.Role;
 import com.my.springboot.domain.user.User;
 import lombok.Builder;

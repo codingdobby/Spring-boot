@@ -13,14 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.*;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,13 +28,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+// For mockMvc
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PostsApiControllerTest {
-    @Autowired
-    private WebApplicationContext context;
-
-    private MockMvc mvc;
 
     @LocalServerPort
     private int port;
@@ -46,22 +43,24 @@ public class PostsApiControllerTest {
     @Autowired
     private PostsRepository postsRepository;
 
-    @Before
-    public  void setup(){
-        mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+    @Autowired
+    private WebApplicationContext context;
 
+    private MockMvc mvc;
+
+    @Before
+    public void setup() {
+        mvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
     }
 
     @After
-    public void testDown() throws Exception{
+    public void tearDown() throws Exception {
         postsRepository.deleteAll();
-
     }
 
-
-
-
-    //등록 TEST
     @Test
     @WithMockUser(roles="USER")
     public void Posts_등록된다() throws Exception {
@@ -88,8 +87,6 @@ public class PostsApiControllerTest {
         assertThat(all.get(0).getContent()).isEqualTo(content);
     }
 
-
-    //수정 Test
     @Test
     @WithMockUser(roles="USER")
     public void Posts_수정된다() throws Exception {
@@ -122,33 +119,4 @@ public class PostsApiControllerTest {
         assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
         assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
     }
-
-
-    //BaseTimeEntity 등록 테스트
-    @Test
-    public void BaseTimeEntity_등록(){
-        LocalDateTime now = LocalDateTime.of(2020,3,20,0,0);
-        postsRepository.save(Posts.builder()
-                .title("title")
-                .content("content")
-                .author("author")
-                .build());
-
-        List<Posts> all = postsRepository.findAll();
-
-        Posts post = all.get(0);
-
-        System.out.println(">>>>>>>>> Created Date: " + post.getCreatedDate() + ", Modified Date: " + post.getModifiedDate());
-
-       assertThat(post.getCreatedDate()).isAfter(now);
-       assertThat(post.getModifiedDate()).isAfter(now);
-
-
-    }
-
-
-
-
-
-
 }

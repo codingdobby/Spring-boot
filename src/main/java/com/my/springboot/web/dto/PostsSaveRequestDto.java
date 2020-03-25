@@ -1,5 +1,6 @@
 package com.my.springboot.web.dto;
 
+
 import com.my.springboot.domain.posts.Posts;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,4 +27,5 @@ public class PostsSaveRequestDto {
                 .author(author)
                 .build();
     }
+
 }
